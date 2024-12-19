@@ -23,8 +23,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// プレイヤー
 	Player* player = new Player();
 
-	// ステージ
-	Map* stage1 = new Map("./TextFiles/Stage/stage1.csv");
+	// マップ
+	Map* map = new Map("./TextFiles/Stage/stage1.csv");
 
 	int ghWhite = Novice::LoadTexture("./NoviceResources/white1x1.png");
 
@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		// 操作する
-		player->Operation(keys, preKeys);
+		player->Operation(keys, preKeys , map);
 
 		///
 		/// ↑更新処理ここまで
@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		player->Draw(ghWhite);
 
 		// ステージ
-		stage1->Draw(ghWhite);
+		map->Draw(ghWhite);
 
 		///
 		/// ↑描画処理ここまで
@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	delete player;
 
-	delete stage1;
+	delete map;
 
 
 	// ライブラリの終了
