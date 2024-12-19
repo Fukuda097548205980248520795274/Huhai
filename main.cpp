@@ -1,6 +1,7 @@
 #include <Novice.h>
 #include "Constant.h"
 #include "./Class/Object/Player/Player.h"
+#include "./Class/Map/Map.h"
 
 const char kWindowTitle[] = "LC1C_20_フクダソウワ_タイトル";
 
@@ -21,6 +22,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// プレイヤー
 	Player* player = new Player();
+
+	// ステージ
+	Map* stage1 = new Map("./TextFiles/Stage/stage1.csv");
 
 	int ghWhite = Novice::LoadTexture("./NoviceResources/white1x1.png");
 
@@ -52,6 +56,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// プレイヤー
 		player->Draw(ghWhite);
 
+		// ステージ
+		stage1->Draw(ghWhite);
+
 		///
 		/// ↑描画処理ここまで
 		///
@@ -66,6 +73,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	delete player;
+
+	delete stage1;
 
 
 	// ライブラリの終了
