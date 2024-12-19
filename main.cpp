@@ -1,5 +1,6 @@
 #include <Novice.h>
 #include "Constant.h"
+#include "./Class/Object/Player/Player.h"
 
 const char kWindowTitle[] = "LC1C_20_フクダソウワ_タイトル";
 
@@ -12,6 +13,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
 	char preKeys[256] = {0};
+
+
+	/*---------------
+	    変数を作る
+	---------------*/
+
+	Player* player = new Player();
+
+	int ghWhite = Novice::LoadTexture("./NoviceResources/white1x1.png");
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -34,6 +45,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
+		player->Draw(ghWhite);
+
 		///
 		/// ↑描画処理ここまで
 		///
@@ -46,6 +59,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 	}
+
+	delete player;
+
 
 	// ライブラリの終了
 	Novice::Finalize();
