@@ -38,6 +38,9 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\StringUtility.cpp">
       <Filter>KamataEngine\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Function\Matrix\Matrix.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -113,5 +116,6 @@
     </ClInclude>
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Strucutre.h" />
+    <ClInclude Include="Function\Matrix\Matrix.h" />
   </ItemGroup>
 </Project>
