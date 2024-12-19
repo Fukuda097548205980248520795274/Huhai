@@ -19,6 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	    変数を作る
 	---------------*/
 
+	// プレイヤー
 	Player* player = new Player();
 
 	int ghWhite = Novice::LoadTexture("./NoviceResources/white1x1.png");
@@ -37,6 +38,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		// 操作する
+		player->Operation(keys, preKeys);
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -45,6 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
+		// プレイヤー
 		player->Draw(ghWhite);
 
 		///
