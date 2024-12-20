@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CEAD67CF-D52D-4717-B347-AA0FCC0ED419}|game.vcxproj|C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Class\\Object\\Enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CEAD67CF-D52D-4717-B347-AA0FCC0ED419}|game.vcxproj|solutionrelative:Class\\Object\\Enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CEAD67CF-D52D-4717-B347-AA0FCC0ED419}|game.vcxproj|C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CEAD67CF-D52D-4717-B347-AA0FCC0ED419}|game.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -26,11 +30,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Enemy.cpp",
+              "DocumentMoniker": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Class\\Object\\Enemy\\Enemy.cpp",
+              "RelativeDocumentMoniker": "Class\\Object\\Enemy\\Enemy.cpp",
+              "ToolTip": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Class\\Object\\Enemy\\Enemy.cpp",
+              "RelativeToolTip": "Class\\Object\\Enemy\\Enemy.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAADwvwEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-20T22:46:56.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Plastic.cpp",
               "DocumentMoniker": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Class\\Object\\Plastic\\Plastic.cpp",
               "RelativeDocumentMoniker": "Class\\Object\\Plastic\\Plastic.cpp",
@@ -38,12 +55,11 @@
               "RelativeToolTip": "Class\\Object\\Plastic\\Plastic.cpp",
               "ViewState": "AQIAAD8BAAAAAAAAAAAAAD8BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-20T09:48:03.452Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T09:48:03.452Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Plastic.h",
               "DocumentMoniker": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Class\\Object\\Plastic\\Plastic.h",
               "RelativeDocumentMoniker": "Class\\Object\\Plastic\\Plastic.h",
@@ -51,12 +67,11 @@
               "RelativeToolTip": "Class\\Object\\Plastic\\Plastic.h",
               "ViewState": "AQIAAAYAAAAAAAAAAAAqwB8AAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-20T09:48:01.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T09:48:01.718Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Constant.h",
               "DocumentMoniker": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\Constant.h",
               "RelativeDocumentMoniker": "Constant.h",
@@ -64,18 +79,17 @@
               "RelativeToolTip": "Constant.h",
               "ViewState": "AQIAAAAAAAAAAAAAAADwvwwAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-20T09:45:22.089Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T09:45:22.089Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Users\\k024g\\OneDrive\\\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\\\u65B0\u3057\u3044\u30D5\u30A9\u30EB\u30C0\u30FC\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AQIAAGQAAAAAAAAAAAAqwHoAAAAEAAAA",
+              "ViewState": "AQIAAGQAAAAAAAAAAAAqwHYAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-20T09:44:50.17Z",
               "EditorCaption": ""
