@@ -108,10 +108,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 操作する
 		player->Operation(keys, preKeys , map);
 
+		// ブロックの動き
 		for (int i = 0; i < kTileNum; i++)
 		{
-			plastic[i]->Move(map);
-			treasure[i]->Move(map);
+			plastic[i]->Move(map , player);
+			treasure[i]->Move(map , player);
 		}
 
 		///
