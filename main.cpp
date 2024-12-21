@@ -5,6 +5,7 @@
 #include "./Class/Object/Plastic/Plastic.h"
 #include "./Class/Object/Treasure/Treasure.h"
 #include "./Class/Object/Enemy/EnemyGreen/EnemyGreen.h"
+#include "./Class/Object/Enemy/EnemyRed/EnemyRed.h"
 
 const char kWindowTitle[] = "LC1C_20_フクダソウワ_タイトル";
 
@@ -38,12 +39,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 敵
 	EnemyGreen* enemyGreen[kTileNum];
+	EnemyRed* enemyRed[kTileNum];
 
 	for (int i = 0; i < kTileNum; i++)
 	{
 		plastic[i] = new Plastic();
 		treasure[i] = new Treasure();
 		enemyGreen[i] = new EnemyGreen();
+		enemyRed[i] = new EnemyRed();
 	}
 
 	// マップ
@@ -111,7 +114,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 
 			case TILE_ENEMY_RED:
+				// 赤の敵
 
+				for (int i = 0; i < kTileNum; i++)
+				{
+					if (enemyRed[i]->id_ == 0)
+					{
+						enemyRed[i]->Arrangement(static_cast<float>(column * kTileSize) + enemyRed[i]->shape_.scale.x,
+							static_cast<float>(row * kTileSize) + enemyRed[i]->shape_.scale.y);
+
+						break;
+					}
+				}
+
+				map->map_[row][column] = TILE_NOTHING;
 
 				break;
 			}
@@ -143,6 +159,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			plastic[i]->Move(map , player);
 			treasure[i]->Move(map , player);
 			enemyGreen[i]->Move(map);
+			enemyRed[i]->Move(map);
 		}
 
 		// ブロック同士の当たり判定
@@ -150,11 +167,197 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			for (int j = 0; j < kTileNum; j++)
 			{
+				/*   敵   */
+
+				// 敵 プラスチック
+				if (enemyGreen[i]->isArrival_ && plastic[j]->isArrival_)
+				{
+					if (enemyGreen[i]->jump_.isJump)
+					{
+						if (enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y &&
+							enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y)
+						{
+							if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
+								enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+							{
+								enemyGreen[i]->shape_.translate.y = plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y + enemyGreen[i]->shape_.scale.y;
+
+								enemyGreen[i]->jump_.isJump = false;
+								enemyGreen[i]->jump_.fallingVel = 0.0f;
+
+								enemyGreen[i]->vel_.y = 0.0f;
+
+								enemyGreen[i]->LocalToScreen();
+								enemyGreen[i]->MapUpdate();
+							}
+						}
+					}
+
+					if (enemyGreen[i]->vel_.x > 0.0f)
+					{
+						if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
+							enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+						{
+							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
+								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y)
+							{
+								enemyGreen[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+
+					if (enemyGreen[i]->vel_.x < 0.0f)
+					{
+						if (enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x &&
+							enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x)
+						{
+							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
+								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y)
+							{
+								enemyGreen[i]->vel_.x *= -1.0f;
+							}
+						}
+					}	
+				}
+
+				// 敵 宝
+				if (enemyGreen[i]->isArrival_ && treasure[j]->isArrival_)
+				{
+					if (enemyGreen[i]->jump_.isJump)
+					{
+						if (enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y &&
+							enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y)
+						{
+							if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
+								enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
+							{
+								enemyGreen[i]->shape_.translate.y = treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y + enemyGreen[i]->shape_.scale.y;
+
+								enemyGreen[i]->jump_.isJump = false;
+								enemyGreen[i]->jump_.fallingVel = 0.0f;
+
+								enemyGreen[i]->vel_.y = 0.0f;
+
+								enemyGreen[i]->LocalToScreen();
+								enemyGreen[i]->MapUpdate();
+							}
+						}
+					}
+
+					if (enemyGreen[i]->vel_.x > 0.0f)
+					{
+						if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
+							enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
+						{
+							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
+								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y - 1.0f)
+							{
+								enemyGreen[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+
+					if (enemyGreen[i]->vel_.x < 0.0f)
+					{
+						if (enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x &&
+							enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x)
+						{
+							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
+								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y - 1.0f)
+							{
+								enemyGreen[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+				}
+
+				// 敵 プラスチック
+				if (enemyRed[i]->isArrival_ && plastic[j]->isArrival_)
+				{
+					if (enemyRed[i]->vel_.x > 0.0f)
+					{
+						if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
+							enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+						{
+							if (enemyRed[i]->shape_.translate.y + enemyRed[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
+								enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y - 1.0f)
+							{
+								enemyRed[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+
+					if (enemyRed[i]->vel_.x < 0.0f)
+					{
+						if (enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x &&
+							enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x)
+						{
+							if (enemyRed[i]->shape_.translate.y + enemyRed[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
+								enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y - 1.0f)
+							{
+								enemyRed[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+				}
+
+				// 敵 宝
+				if (enemyRed[i]->isArrival_ && treasure[j]->isArrival_)
+				{
+					if (enemyRed[i]->vel_.x > 0.0f)
+					{
+						if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
+							enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
+						{
+							if (enemyRed[i]->shape_.translate.y + enemyRed[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
+								enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y - 1.0f)
+							{
+								enemyRed[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+
+					if (enemyRed[i]->vel_.x < 0.0f)
+					{
+						if (enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x &&
+							enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x)
+						{
+							if (enemyRed[i]->shape_.translate.y + enemyRed[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
+								enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y - 1.0f)
+							{
+								enemyRed[i]->vel_.x *= -1.0f;
+							}
+						}
+					}
+				}
+
+
 				/*   ブロック   */
 
 				// プラスチック プラスチック
 				if (plastic[i]->isArrival_ && plastic[j]->isArrival_)
 				{
+					if (plastic[i]->jump_.isJump)
+					{
+						if (plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y &&
+							plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y)
+						{
+							if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
+								plastic[i]->shape_.translate.x - plastic[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+							{
+								plastic[i]->shape_.translate.y = plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y + plastic[i]->shape_.scale.y;
+
+								plastic[i]->jump_.isJump = false;
+								plastic[i]->jump_.fallingVel = 0.0f;
+
+								plastic[i]->vel_.y = 0.0f;
+
+								plastic[i]->LocalToScreen();
+								plastic[i]->MapUpdate();
+							}
+						}
+					}
+
 					if (plastic[i]->vel_.x > 0.0f)
 					{
 						if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
@@ -286,28 +489,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							}
 						}
 					}
-
-					if (treasure[i]->jump_.isJump)
-					{
-						if (treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[i]->shape_.scale.y &&
-							treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[i]->shape_.scale.y)
-						{
-							if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
-								treasure[i]->shape_.translate.x - treasure[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
-							{
-								treasure[i]->jump_.isJump = false;
-								treasure[i]->vel_.y = 0.0f;
-
-								treasure[i]->shape_.translate.y = treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y + treasure[i]->shape_.scale.y;
-
-								treasure[i]->LocalToScreen();
-								treasure[i]->MapUpdate();
-							}
-						}
-					}
 				}
 
-				// プラスチック 敵
+				// プラスチック 緑の敵
 				if (plastic[i]->isArrival_ && enemyGreen[j]->isArrival_)
 				{
 					if (plastic[i]->vel_.x > 0.0f)
@@ -341,7 +525,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 
-				// 宝 敵
+				// 宝 緑の敵
 				if (treasure[i]->isArrival_ && enemyGreen[j]->isArrival_)
 				{
 					if (treasure[i]->vel_.x > 0.0f)
@@ -375,64 +559,69 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 
-
-				/*   敵   */
-
-				// 敵 プラスチック
-				if (enemyGreen[i]->isArrival_ && plastic[j]->isArrival_)
+				// プラスチック 赤の敵
+				if (plastic[i]->isArrival_ && enemyRed[j]->isArrival_)
 				{
-					if (enemyGreen[i]->vel_.x > 0.0f)
+					if (plastic[i]->vel_.x > 0.0f)
 					{
-						if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
-							enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+						if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
+							plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x)
 						{
-							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
-								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y)
+							if (plastic[i]->shape_.translate.y + plastic[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y &&
+								plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y)
 							{
-								enemyGreen[i]->vel_.x *= -1.0f;
+								plastic[i]->shape_.translate.x = enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x - plastic[i]->shape_.scale.x;
+								plastic[i]->LocalToScreen();
+								plastic[i]->MapUpdate();
 							}
 						}
 					}
 
-					if (enemyGreen[i]->vel_.x < 0.0f)
+					if (plastic[i]->vel_.x < 0.0f)
 					{
-						if (enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x &&
-							enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x)
+						if (plastic[i]->shape_.translate.x - plastic[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x &&
+							plastic[i]->shape_.translate.x - plastic[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x)
 						{
-							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y &&
-								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y)
+							if (plastic[i]->shape_.translate.y + plastic[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y &&
+								plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y)
 							{
-								enemyGreen[i]->vel_.x *= -1.0f;
+								plastic[i]->shape_.translate.x = enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x + plastic[i]->shape_.scale.x;
+								plastic[i]->LocalToScreen();
+								plastic[i]->MapUpdate();
 							}
 						}
 					}
 				}
 
-				// 敵 宝
-				if (enemyGreen[i]->isArrival_ && treasure[j]->isArrival_)
+				// 宝 赤の敵
+				if (treasure[i]->isArrival_ && enemyRed[j]->isArrival_)
 				{
-					if (enemyGreen[i]->vel_.x > 0.0f)
+					if (treasure[i]->vel_.x > 0.0f)
 					{
-						if (enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
-							enemyGreen[i]->shape_.translate.x + enemyGreen[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
+						if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
+							treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x)
 						{
-							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
-								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y)
+							if (treasure[i]->shape_.translate.y + treasure[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y &&
+								treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y)
 							{
-								enemyGreen[i]->vel_.x *= -1.0f;
+								treasure[i]->shape_.translate.x = enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x - treasure[i]->shape_.scale.x;
+								treasure[i]->LocalToScreen();
+								treasure[i]->MapUpdate();
 							}
 						}
 					}
 
-					if (enemyGreen[i]->vel_.x < 0.0f)
+					if (treasure[i]->vel_.x < 0.0f)
 					{
-						if (enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x &&
-							enemyGreen[i]->shape_.translate.x - enemyGreen[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x)
+						if (treasure[i]->shape_.translate.x - treasure[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x &&
+							treasure[i]->shape_.translate.x - treasure[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x)
 						{
-							if (enemyGreen[i]->shape_.translate.y + enemyGreen[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y &&
-								enemyGreen[i]->shape_.translate.y - enemyGreen[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y)
+							if (treasure[i]->shape_.translate.y + treasure[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y &&
+								treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y)
 							{
-								enemyGreen[i]->vel_.x *= -1.0f;
+								treasure[i]->shape_.translate.x = enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x + treasure[i]->shape_.scale.x;
+								treasure[i]->LocalToScreen();
+								treasure[i]->MapUpdate();
 							}
 						}
 					}
@@ -460,6 +649,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			plastic[i]->Draw(ghWhite);
 			treasure[i]->Draw(ghWhite);
 			enemyGreen[i]->Draw(ghWhite);
+			enemyRed[i]->Draw(ghWhite);
 		}
 
 		///
@@ -484,6 +674,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		delete plastic[i];
 		delete treasure[i];
 		delete enemyGreen[i];
+		delete enemyRed[i];
 	}
 
 

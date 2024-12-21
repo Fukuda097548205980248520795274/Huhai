@@ -118,6 +118,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Class\Map\Map.cpp" />
     <ClCompile Include="Class\Object\Enemy\Enemy.cpp" />
     <ClCompile Include="Class\Object\Enemy\EnemyGreen\EnemyGreen.cpp" />
+    <ClCompile Include="Class\Object\Enemy\EnemyRed\EnemyRed.cpp" />
     <ClCompile Include="Class\Object\Object.cpp" />
     <ClCompile Include="Class\Object\Plastic\Plastic.cpp" />
     <ClCompile Include="Class\Object\Player\Player.cpp" />
@@ -156,6 +157,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Class\Map\Map.h" />
     <ClInclude Include="Class\Object\Enemy\Enemy.h" />
     <ClInclude Include="Class\Object\Enemy\EnemyGreen\EnemyGreen.h" />
+    <ClInclude Include="Class\Object\Enemy\EnemyRed\EnemyRed.h" />
     <ClInclude Include="Class\Object\Object.h" />
     <ClInclude Include="Class\Object\Plastic\Plastic.h" />
     <ClInclude Include="Class\Object\Player\Player.h" />
