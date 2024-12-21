@@ -217,7 +217,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 								enemyGreen[i]->vel_.x *= -1.0f;
 							}
 						}
-					}	
+					}
 				}
 
 				// 敵 宝
@@ -274,6 +274,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// 敵 プラスチック
 				if (enemyRed[i]->isArrival_ && plastic[j]->isArrival_)
 				{
+					if (enemyRed[i]->jump_.isJump)
+					{
+						if (enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y &&
+							enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y > plastic[j]->shape_.translate.y - plastic[j]->shape_.scale.y)
+						{
+							if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
+								enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x < plastic[j]->shape_.translate.x + plastic[j]->shape_.scale.x)
+							{
+								enemyRed[i]->shape_.translate.y = plastic[j]->shape_.translate.y + plastic[j]->shape_.scale.y + enemyRed[i]->shape_.scale.y;
+
+								enemyRed[i]->jump_.isJump = false;
+								enemyRed[i]->jump_.fallingVel = 0.0f;
+
+								enemyRed[i]->vel_.y = 0.0f;
+
+								enemyRed[i]->LocalToScreen();
+								enemyRed[i]->MapUpdate();
+							}
+						}
+					}
+
 					if (enemyRed[i]->vel_.x > 0.0f)
 					{
 						if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > plastic[j]->shape_.translate.x - plastic[j]->shape_.scale.x &&
@@ -304,6 +325,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// 敵 宝
 				if (enemyRed[i]->isArrival_ && treasure[j]->isArrival_)
 				{
+					if (enemyRed[i]->jump_.isJump)
+					{
+						if (enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y < treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y &&
+							enemyRed[i]->shape_.translate.y - enemyRed[i]->shape_.scale.y > treasure[j]->shape_.translate.y - treasure[j]->shape_.scale.y)
+						{
+							if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
+								enemyRed[i]->shape_.translate.x - enemyRed[i]->shape_.scale.x < treasure[j]->shape_.translate.x + treasure[j]->shape_.scale.x)
+							{
+								enemyRed[i]->shape_.translate.y = treasure[j]->shape_.translate.y + treasure[j]->shape_.scale.y + enemyRed[i]->shape_.scale.y;
+
+								enemyRed[i]->jump_.isJump = false;
+								enemyRed[i]->jump_.fallingVel = 0.0f;
+
+								enemyRed[i]->vel_.y = 0.0f;
+
+								enemyRed[i]->LocalToScreen();
+								enemyRed[i]->MapUpdate();
+							}
+						}
+					}
+
 					if (enemyRed[i]->vel_.x > 0.0f)
 					{
 						if (enemyRed[i]->shape_.translate.x + enemyRed[i]->shape_.scale.x > treasure[j]->shape_.translate.x - treasure[j]->shape_.scale.x &&
@@ -494,6 +536,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// プラスチック 緑の敵
 				if (plastic[i]->isArrival_ && enemyGreen[j]->isArrival_)
 				{
+					// 敵に落とすと、敵が消える（出現フラグがfalseになる）
+					if (plastic[i]->jump_.isJump)
+					{
+						if (plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y < enemyGreen[j]->shape_.translate.y + enemyGreen[j]->shape_.scale.y &&
+							plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y > enemyGreen[j]->shape_.translate.y - enemyGreen[j]->shape_.scale.y)
+						{
+							if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > enemyGreen[j]->shape_.translate.x - enemyGreen[j]->shape_.scale.x &&
+								plastic[i]->shape_.translate.x - plastic[i]->shape_.scale.x < enemyGreen[j]->shape_.translate.x + enemyGreen[j]->shape_.scale.x)
+							{
+								enemyGreen[j]->isArrival_ = false;
+							}
+						}
+					}
+
 					if (plastic[i]->vel_.x > 0.0f)
 					{
 						if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > enemyGreen[j]->shape_.translate.x - enemyGreen[j]->shape_.scale.x &&
@@ -528,6 +584,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// 宝 緑の敵
 				if (treasure[i]->isArrival_ && enemyGreen[j]->isArrival_)
 				{
+					// 敵に落とすと、敵が消える（出現フラグがfalseになる）
+					if (treasure[i]->jump_.isJump)
+					{
+						if (treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y < enemyGreen[j]->shape_.translate.y + enemyGreen[j]->shape_.scale.y &&
+							treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y > enemyGreen[j]->shape_.translate.y - enemyGreen[j]->shape_.scale.y)
+						{
+							if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > enemyGreen[j]->shape_.translate.x - enemyGreen[j]->shape_.scale.x &&
+								treasure[i]->shape_.translate.x - treasure[i]->shape_.scale.x < enemyGreen[j]->shape_.translate.x + enemyGreen[j]->shape_.scale.x)
+							{
+								enemyGreen[j]->isArrival_ = false;
+							}
+						}
+					}
+
 					if (treasure[i]->vel_.x > 0.0f)
 					{
 						if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > enemyGreen[j]->shape_.translate.x - enemyGreen[j]->shape_.scale.x &&
@@ -562,6 +632,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// プラスチック 赤の敵
 				if (plastic[i]->isArrival_ && enemyRed[j]->isArrival_)
 				{
+					// 敵に落とすと、敵が消える（出現フラグがfalseになる）
+					if (plastic[i]->jump_.isJump)
+					{
+						if (plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y &&
+							plastic[i]->shape_.translate.y - plastic[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y)
+						{
+							if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
+								plastic[i]->shape_.translate.x - plastic[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x)
+							{
+								enemyRed[j]->isArrival_ = false;
+							}
+						}
+					}
+
 					if (plastic[i]->vel_.x > 0.0f)
 					{
 						if (plastic[i]->shape_.translate.x + plastic[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
@@ -596,6 +680,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// 宝 赤の敵
 				if (treasure[i]->isArrival_ && enemyRed[j]->isArrival_)
 				{
+					// 敵に落とすと、敵が消える（出現フラグがfalseになる）
+					if (treasure[i]->jump_.isJump)
+					{
+						if (treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y < enemyRed[j]->shape_.translate.y + enemyRed[j]->shape_.scale.y &&
+							treasure[i]->shape_.translate.y - treasure[i]->shape_.scale.y > enemyRed[j]->shape_.translate.y - enemyRed[j]->shape_.scale.y)
+						{
+							if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
+								treasure[i]->shape_.translate.x - treasure[i]->shape_.scale.x < enemyRed[j]->shape_.translate.x + enemyRed[j]->shape_.scale.x)
+							{
+								enemyRed[j]->isArrival_ = false;
+							}
+						}
+					}
+
 					if (treasure[i]->vel_.x > 0.0f)
 					{
 						if (treasure[i]->shape_.translate.x + treasure[i]->shape_.scale.x > enemyRed[j]->shape_.translate.x - enemyRed[j]->shape_.scale.x &&
