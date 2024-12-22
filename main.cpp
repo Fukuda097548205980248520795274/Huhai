@@ -150,6 +150,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		// ブロックを腐らせる
+		map->Rotten();
+
 		// 操作する
 		player->Operation(keys, preKeys , map);
 
