@@ -67,89 +67,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// マップ
 	Map* map = new Map("./TextFiles/Stage/stage1.csv");
 
-
-	// オブジェクトを置き換える
-	for (int row = 0; row < kMapChipRow; row++)
-	{
-		for (int column = 0; column < kMapChipColumn; column++)
-		{
-			switch (map->map_[row][column])
-			{
-			case TILE_PLASTIC:
-				// プラスチック
-
-				for (int i = 0; i < kTileNum; i++)
-				{
-					if (plastic[i]->id_ == 0)
-					{
-						plastic[i]->Arrangement(static_cast<float>(column * kTileSize) + plastic[i]->shape_.scale.x,
-							static_cast<float>(row * kTileSize) + plastic[i]->shape_.scale.y);
-
-						break;
-					}
-				}
-
-				map->map_[row][column] = TILE_NOTHING;
-
-				break;
-
-			case TILE_TREASURE:
-				// 宝
-
-				for (int i = 0; i < kTileNum; i++)
-				{
-					if (treasure[i]->id_ == 0)
-					{
-						treasure[i]->Arrangement(static_cast<float>(column * kTileSize) + treasure[i]->shape_.scale.x,
-							static_cast<float>(row * kTileSize) + treasure[i]->shape_.scale.y);
-
-						break;
-					}
-				}
-
-				map->map_[row][column] = TILE_NOTHING;
-
-				break;
-
-			case TILE_ENEMY_GREEN:
-				// 緑の敵
-
-				for (int i = 0; i < kTileNum; i++)
-				{
-					if (enemyGreen[i]->id_ == 0)
-					{
-						enemyGreen[i]->Arrangement(static_cast<float>(column * kTileSize) + enemyGreen[i]->shape_.scale.x,
-							static_cast<float>(row * kTileSize) + enemyGreen[i]->shape_.scale.y);
-
-						break;
-					}
-				}
-
-				map->map_[row][column] = TILE_NOTHING;
-
-				break;
-
-			case TILE_ENEMY_RED:
-				// 赤の敵
-
-				for (int i = 0; i < kTileNum; i++)
-				{
-					if (enemyRed[i]->id_ == 0)
-					{
-						enemyRed[i]->Arrangement(static_cast<float>(column * kTileSize) + enemyRed[i]->shape_.scale.x,
-							static_cast<float>(row * kTileSize) + enemyRed[i]->shape_.scale.y);
-
-						break;
-					}
-				}
-
-				map->map_[row][column] = TILE_NOTHING;
-
-				break;
-			}
-		}
-	}
-
 	int ghWhite = Novice::LoadTexture("./NoviceResources/white1x1.png");
 
 
@@ -222,7 +139,89 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
 				scene = GAME;
-				break;
+
+				
+				// オブジェクトを置き換える
+				for (int row = 0; row < kMapChipRow; row++)
+				{
+					for (int column = 0; column < kMapChipColumn; column++)
+					{
+						switch (map->map_[row][column])
+						{
+						case TILE_PLASTIC:
+							// プラスチック
+
+							for (int i = 0; i < kTileNum; i++)
+							{
+								if (plastic[i]->id_ == 0)
+								{
+									plastic[i]->Arrangement(static_cast<float>(column * kTileSize) + plastic[i]->shape_.scale.x,
+										static_cast<float>(row * kTileSize) + plastic[i]->shape_.scale.y);
+
+									break;
+								}
+							}
+
+							map->map_[row][column] = TILE_NOTHING;
+
+							break;
+
+						case TILE_TREASURE:
+							// 宝
+
+							for (int i = 0; i < kTileNum; i++)
+							{
+								if (treasure[i]->id_ == 0)
+								{
+									treasure[i]->Arrangement(static_cast<float>(column * kTileSize) + treasure[i]->shape_.scale.x,
+										static_cast<float>(row * kTileSize) + treasure[i]->shape_.scale.y);
+
+									break;
+								}
+							}
+
+							map->map_[row][column] = TILE_NOTHING;
+
+							break;
+
+						case TILE_ENEMY_GREEN:
+							// 緑の敵
+
+							for (int i = 0; i < kTileNum; i++)
+							{
+								if (enemyGreen[i]->id_ == 0)
+								{
+									enemyGreen[i]->Arrangement(static_cast<float>(column * kTileSize) + enemyGreen[i]->shape_.scale.x,
+										static_cast<float>(row * kTileSize) + enemyGreen[i]->shape_.scale.y);
+
+									break;
+								}
+							}
+
+							map->map_[row][column] = TILE_NOTHING;
+
+							break;
+
+						case TILE_ENEMY_RED:
+							// 赤の敵
+
+							for (int i = 0; i < kTileNum; i++)
+							{
+								if (enemyRed[i]->id_ == 0)
+								{
+									enemyRed[i]->Arrangement(static_cast<float>(column * kTileSize) + enemyRed[i]->shape_.scale.x,
+										static_cast<float>(row * kTileSize) + enemyRed[i]->shape_.scale.y);
+
+									break;
+								}
+							}
+
+							map->map_[row][column] = TILE_NOTHING;
+
+							break;
+						}
+					}
+				}
 			}
 
 			///
